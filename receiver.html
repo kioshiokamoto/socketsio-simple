@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <h1>Your messages are here</h1>
+    <h1>Lista de mensajes</h1>
     <h2 id="msgBox"></h2>
     <script>
         const msgBox = document.getElementById("msgBox")
@@ -18,7 +18,8 @@
             msgBox.innerHTML += (data + "<br/>")
         })
         const username = prompt()
-        socket.emit("user-connected", username)
+        //console.log(username);
+        socket.emit("user-connected",  username);
     </script>
 </body>
 

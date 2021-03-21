@@ -18,30 +18,30 @@ const io = require('socket.io')(http,{
 
 app.use(express.urlencoded({ extended: true }))
 
-// Creating object of Socket
+// Crear objeto para socketio
 const liveData = io.of("/liveData") 
 
-// Socket event
-liveData.on("user-connected",(username)=>{
-    console.log(`Receiver ${username} connected..`) // Logging when user is connected
-});
 
-// Get request on home page
+// Enviar mensaje en tiempo real
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/sender.html'));
 })
-
+//Recibir mensaje en tiempo real
 app.get('/realtime', (req, res) => {
     res.sendFile(path.join(__dirname + '/receiver.html'));
 })
 
 
-
-
-// Post request on home page
+// Envio de mensaje
 app.post('/',(req, res) => {
     liveData.emit("new-data",req.body.message) // Emitting event.
 })
+// Evento de socketio
+liveData.on("user-connected",(username)=>{
+    console.log(username);
+    console.log(`Receiver ${username} connected..`) // Logging when user is connected
+});
 
-// Listening on Host and Port
+
+//Inicializar servidor.
 http.listen(port, host, () => console.log(`Listening on http://${host}:${port}/`))
